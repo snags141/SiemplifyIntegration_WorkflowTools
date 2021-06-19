@@ -4,7 +4,6 @@ Gain more control over your workflows, with tools such as approval stages that c
 
 ## 1 - Why does this integration exist
 The purpose of this integration was initially to implement some kind of workflow approval system. In some circumstances, you might want to require approval from one or two specific users or maybe a role, such as tier 3, before a playbook can continue execution.
-As of writing this, there is no built-in functionality to achieve these goals, and so Workflow Tools was born.
 
 ## 2 - Actions
 Typically you'll want to use the "Approval Request" action, followed by "Approval Response" in a playbook. See section 4 for a playbook example.
