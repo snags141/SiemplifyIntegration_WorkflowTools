@@ -38,11 +38,19 @@ No parameters, just make sure you have it in manual mode when used in a playbook
 | Slack Webhook URL | String | If you use slack and want to send messages to a channel for auditing/notifications, enter a URL from your Webhook custom integration here. Otherwise, leave it blank. | 
 
 ## 4 - Use Case Example
+**Use case:**
+The playbook needs to facilitate escalation of an alert to a customer. 
+**Requirements:**
+1. If the alert priority is critical, the escalation must first be reviewed by an "approval manager" user before any emails are sent. (Actions starting with "M:" are set to manual)
+2. If the alert has been grouped with others, this alert must first be moved to its own case for processing, so that we don't affect the other alerts in the case.
+3. While the case is pending approval, the alert must be closed for two reasons: Firstly, we don't want many pending alerts taking up space in the playbook queue. Secondly, we don't want additional alerts being grouped with this one in the time between it pending approval, and an approval manager reviewing it. However, the approval manager should be able to re-open the case and continue where the playbook left off.
 
+
+![Example Playbook](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/CustomerEscalation.png?raw=true)
+Note the step above called "AttachCloseAlertPlaybook". This is a secondary playbook containing a single action: "Close alert". This is key to requirement #3: Because a different playbook is triggering the close alert action, this playbook will be "paused" as indicated by the stop icon in the playbook display below. When this happens, the case can be re-opened and the playbook continued from where it was paused.  Hence, the approval manager can continue with the workflow.
+![Example Playbook](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/PausedPlaybook.png?raw=true)
 
 ## 3 - Caveats - Things to be aware of
 I purposely put the designation of approval managers in the overall integration settings/parameters, rather than the action settings/parameters, to avoid cases where the playbook action (namely "Approval Response") would fail, resulting in any user on the platform with access to that case simply changing the values and clicking "re-run".
-
 When would the action fail?
-
 There are two cases you may see the "Approval Response" action fail with an error. Firstly: Coding error (Unheard of, since I'm a python wizard) and secondly: When a user who **is not** an approval manager attempts to approve or deny the action.
