@@ -42,5 +42,7 @@ No parameters, just make sure you have it in manual mode when used in a playbook
 
 ## 3 - Caveats - Things to be aware of
 I purposely put the designation of approval managers in the overall integration settings/parameters, rather than the action settings/parameters, to avoid cases where the playbook action (namely "Approval Response") would fail, resulting in any user on the platform with access to that case simply changing the values and clicking "re-run".
+
 When would the action fail?
+
 There are two cases you may see the "Approval Response" action fail with an error. Firstly: Coding error (Unheard of, since I'm a python wizard) and secondly: When a user who **is not** an approval manager attempts to approve or deny the action.
