@@ -45,11 +45,16 @@ The playbook needs to facilitate escalation of an alert to a customer.
 3. While the case is pending approval, the alert must be closed for two reasons: Firstly, we don't want many pending alerts taking up space in the playbook queue. Secondly, we don't want additional alerts being grouped with this one in the time between it pending approval, and an approval manager reviewing it. However, the approval manager should be able to re-open the case and continue where the playbook left off.
 
 
-![Example Playbook](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/CustomerEscalation.png?raw=true)
+![Example Playbook 1](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/CustomerEscalation.png?raw=true)
 Note the step above called "AttachCloseAlertPlaybook". This is a secondary playbook containing a single action: "Close alert". This is key to requirement #3: Because a different playbook is triggering the close alert action, this playbook will be "paused" as indicated by the stop icon in the playbook display below. When this happens, the case can be re-opened and the playbook continued from where it was paused.  Hence, the approval manager can continue with the workflow.
-![Example Playbook](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/PausedPlaybook.png?raw=true)
+![Example Playbook 2](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/PausedPlaybook.png?raw=true)
 
-## 3 - Caveats - Things to be aware of
+## 5 - Slack Webhook
+When configured, the slack webhook will send auditing messages/notifications to the assigned channel.
+If you use a different messaging platform like Microsoft Teams, this can easily be configured by creating a custom version of the log\_slack\_message function in the WorkflowToolsManager and calling it "log\_teams\_message" or something similar.
+![Slack Webhook](https://github.com/snags141/SiemplifyIntegration_WorkflowTools/blob/main/readme_images/SlackWebhook.png?raw=true)
+
+## 6 - Caveats - Things to be aware of
 I purposely put the designation of approval managers in the overall integration settings/parameters, rather than the action settings/parameters, to avoid cases where the playbook action (namely "Approval Response") would fail, resulting in any user on the platform with access to that case simply changing the values and clicking "re-run".
 When would the action fail?
 There are two cases you may see the "Approval Response" action fail with an error. Firstly: Coding error (Unheard of, since I'm a python wizard) and secondly: When a user who **is not** an approval manager attempts to approve or deny the action.
